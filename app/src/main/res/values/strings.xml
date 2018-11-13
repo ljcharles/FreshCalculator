@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">FreshCalculator</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
+    <string name="_1_x">1/x</string>
+    <string name="_x">×</string>
+    <string name="_6">6</string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="percent">%</string>
+    <string name="divide">÷</string>
+    <string name="_9">9</string>
+    <string name="_8">8</string>
+    <string name="_7">7</string>
+    <string name="racine_carree">√x</string>
+    <string name="parenthese_close">)</string>
+    <string name="parenthese_open">(</string>
+    <string name="back_delete">←</string>
+    <string name="Clear">C</string>
+    <string name="Power">xⁿ</string>
+    <string name="factoriel">x!</string>
+    <string name="tan">tan</string>
+    <string name="cos">cos</string>
+    <string name="sin">sin</string>
+    <string name="_3">3</string>
+    <string name="moins">-</string>
+    <string name="plus">+</string>
+    <string name="virgule">,</string>
+    <string name="pi">π</string>
+    <string name="equal">=</string>
+    <string name="_0">0</string>
+</resources>
