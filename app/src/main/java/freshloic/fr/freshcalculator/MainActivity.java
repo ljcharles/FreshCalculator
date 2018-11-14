@@ -26,6 +26,5 @@ public class MainActivity extends AppCompatActivity {
 
         Calligrapher calligrapher = new Calligrapher(this);
         calligrapher.setFont(this, "Lato-Regular.ttf",true);
-
     }
 }

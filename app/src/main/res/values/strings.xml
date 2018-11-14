@@ -15,8 +15,8 @@
     <string name="racine_carree">√x</string>
     <string name="parenthese_close">)</string>
     <string name="parenthese_open">(</string>
-    <string name="back_delete">←</string>
-    <string name="Clear">C</string>
+    <string name="back_delete">⌫</string>
+    <string name="Clear">AC</string>
     <string name="Power">xⁿ</string>
     <string name="factoriel">x!</string>
     <string name="tan">tan</string>
@@ -29,4 +29,6 @@
     <string name="pi">π</string>
     <string name="equal">=</string>
     <string name="_0">0</string>
+    <string name="_890">= 890</string>
+    <string name="_10_89">10 × 89</string>
 </resources>
