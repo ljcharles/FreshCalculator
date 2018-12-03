@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {
@@ -28,4 +32,6 @@ dependencies {
 
     // Add Library
     implementation 'me.anwarshahriar:calligrapher:1.0'
+    implementation 'com.github.cortinico:slidetoact:v0.3.0'
+    implementation 'com.android.support:design:27.1.1'
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FreshCalculator</string>
     <string name="_2">2</string>
@@ -46,13 +47,5 @@
     <string name="Univers">La réponse à la vie, l\'univers et tout le reste</string>
     <string name="item1">Item1</string>
     <string name="name">Ajouter une nouvelle catégorie</string>
-    <string name="add">Ajouter</string>
     <string name="rechercher">Rechercher</string>
-    <string name="mon_image">mon Image</string>
-    <string name="textview_1">TextView 1</string>
-    <string name="textview_2">textView 2</string>
-    <string name="textview_3">textView 3</string>
-    <string name="supprimer_historique">Supprimer Historique</string>
-    <string name="textview_4">textView 4</string>
-    <string name="todo">TODO</string>
 </resources>

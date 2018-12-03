@@ -12,21 +12,20 @@
 
     <style name="MathButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="DefautNumberButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorDefaultText</item>
     </style>
 
     <style name="AccentButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#fff</item>
     </style>
-
 </resources>
