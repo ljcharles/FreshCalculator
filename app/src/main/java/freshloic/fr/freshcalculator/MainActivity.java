@@ -1,17 +1,22 @@
 package freshloic.fr.freshcalculator;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ncorti.slidetoact.SlideToActView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -22,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SlideToActView slideToActView;
     DatabaseHelper databaseHelper;
     private static final int REQ_CODE_SPEECH_INPUT = 100;
-    private ImageButton mSpeakBtn;
 
     StringBuilder textMath = new StringBuilder();
     StringBuilder textAns = new StringBuilder("0");
@@ -72,15 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         for (int anIdArray : idArray) if(findViewById(anIdArray) != null) (findViewById(anIdArray)).setOnClickListener(this);
-        
-        mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
-        mSpeakBtn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                startVoiceInput();
-            }
-        });
+        ImageButton mSpeakBtn = findViewById(R.id.btnVocal);
+        mSpeakBtn.setOnClickListener(v -> startVoiceInput());
     }
     
     private void startVoiceInput() {
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour, Entrer votre calcul !");
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
+        } catch (ActivityNotFoundException ignored) {
 
         }
     }

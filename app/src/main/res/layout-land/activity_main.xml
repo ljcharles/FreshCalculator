@@ -732,8 +732,7 @@
                 android:background="@drawable/result_button_bg"
                 android:contentDescription="@string/photo_to_calcul"
                 android:src="@drawable/photo_asset"
-                android:theme="@style/MathButton"
-                android:visibility="invisible" />
+                android:theme="@style/MathButton" />
 
             <ImageButton
                 android:id="@+id/btnVocal"
@@ -746,8 +745,7 @@
                 android:background="@drawable/back_button_bg"
                 android:contentDescription="@string/voice_to_calcul"
                 android:src="@drawable/voice_asset"
-                android:theme="@style/MathButton"
-                android:visibility="invisible" />
+                android:theme="@style/MathButton" />
 
         </LinearLayout>
 
