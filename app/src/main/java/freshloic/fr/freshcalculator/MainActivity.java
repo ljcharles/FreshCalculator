@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView screenAns, screenMath;
     SlideToActView slideToActView;
     DatabaseHelper databaseHelper;
+    private static final int REQ_CODE_SPEECH_INPUT = 100;
+    private ImageButton mSpeakBtn;
 
     StringBuilder textMath = new StringBuilder();
     StringBuilder textAns = new StringBuilder("0");
@@ -70,6 +72,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         for (int anIdArray : idArray) if(findViewById(anIdArray) != null) (findViewById(anIdArray)).setOnClickListener(this);
+        
+        mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
+        mSpeakBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startVoiceInput();
+            }
+        });
+    }
+    
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour, Entrer votre calcul !");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    screenMath.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
     }
 
     @Override
