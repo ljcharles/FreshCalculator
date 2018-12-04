@@ -64,13 +64,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    void insertData(String title, String subtitle, String date, String category) {
+    void insertData(String title, String subtitle, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE, subtitle);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DATE, date);
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CATEGORY, category);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CATEGORY, "defaut");
 
 
          db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
@@ -104,14 +104,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deletedRows != -1;
     }
 
-    Cursor getItemID(String name){
+    /*Cursor getItemID(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + FeedReaderContract.FeedEntry._ID
                 + " FROM " + FeedReaderContract.FeedEntry.TABLE_NAME
                 + " WHERE " + FeedReaderContract.FeedEntry._ID
                 + " = '" + name + "'";
         return db.rawQuery(query,null);
-    }
+    }*/
 
     boolean updateCategorieCalcul(String date, String updateTo) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -128,8 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deletedRows != -1;
     }
 
-//
-    Cursor viewData(Boolean viewAll, String title){
+    Cursor viewData(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor dbQuery;
 
@@ -143,35 +142,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FeedReaderContract.FeedEntry.COLUMN_NAME_CATEGORY
         };
 
-        if (viewAll){
-            dbQuery = db.query(
-                    FeedReaderContract.FeedEntry.TABLE_NAME,   // The table to query
-                    projection,             // The array of columns to return (pass null to get all)
-                    null,              // The columns for the WHERE clause
-                    null,          // The values for the WHERE clause
-                    null,                   // don't group the rows
-                    null,                   // don't filter by row groups
-                    null               // The sort order
-            );
-        }else {
-            // Filter results WHERE "title" = 'My Title'
-            String selection = FeedReaderContract.FeedEntry.COLUMN_NAME_CATEGORY + " = ?";
-            String[] selectionArgs = { title };
-
-            // How you want the results sorted in the resulting Cursor
-            String sortOrder =
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE + " DESC";
-
-            dbQuery = db.query(
-                    FeedReaderContract.FeedEntry.TABLE_NAME,   // The table to query
-                    projection,             // The array of columns to return (pass null to get all)
-                    selection,              // The columns for the WHERE clause
-                    selectionArgs,          // The values for the WHERE clause
-                    null,                   // don't group the rows
-                    null,                   // don't filter by row groups
-                    sortOrder               // The sort order
-            );
-        }
+        dbQuery = db.query(
+                FeedReaderContract.FeedEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
 
         return dbQuery;
     }
@@ -221,11 +200,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return names.toArray(new String[0]);
     }
 
-    Cursor getLastIDCalcul() {
+/*    Cursor getLastIDCalcul() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + FeedReaderContract.FeedEntry._ID
                 + " FROM " + FeedReaderContract.FeedEntry.TABLE_NAME
                 + " ORDER BY " + FeedReaderContract.FeedEntry._ID + " DESC LIMIT 1";
         return db.rawQuery(query,null);
-    }
+    }*/
 }

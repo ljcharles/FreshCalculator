@@ -61,7 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             TextView expression = view.findViewById(R.id.textView1);
             TextView resultat = view.findViewById(R.id.textView2);
-            TextView categorie = view.findViewById(R.id.textView4);
+            // TextView categorie = view.findViewById(R.id.textView4);
 
             ImageButton imageDelete = view.findViewById(R.id.imageDelete);
             imageDelete.setOnClickListener((View view1) -> {
@@ -113,7 +113,7 @@ public class HistoryActivity extends AppCompatActivity {
         add_data.setOnClickListener(view -> {
             String name = add_name.getText().toString();
 
-            if (!Utils.isEmptyString(name) && databaseHelper.insertCategories(name)){
+            if (Utils.isNotEmptyString(name) && databaseHelper.insertCategories(name)){
                 Toast.makeText(HistoryActivity.this, "Data Added", Toast.LENGTH_SHORT).show();
 
                 add_name.setText("");
@@ -128,7 +128,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void viewData() {
-        Cursor cursor = databaseHelper.viewData(true, null);
+        Cursor cursor = databaseHelper.viewData();
 
         if (cursor.getCount() == 0){
             Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();

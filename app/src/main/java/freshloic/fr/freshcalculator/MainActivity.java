@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     StringBuilder textMath = new StringBuilder();
     StringBuilder textAns = new StringBuilder("0");
     StringBuilder screenTextMath = new StringBuilder();
-    String expressionInHistory = "lol";
-    String resultatInHistory = "lol";
+    String expressionInHistory;
+    String resultatInHistory;
     int checkSubmit = 0;
 
     private int[] idArray = {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         expressionInHistory = receivedIntent.getStringExtra("expression");
         resultatInHistory = receivedIntent.getStringExtra("resultat");
 
-        if(!Objects.equals(expressionInHistory, "lol") && !Objects.equals(resultatInHistory, "lol")){
+        if(Utils.isNotEmptyString(expressionInHistory) && Utils.isNotEmptyString(resultatInHistory)){
             screenAns.setText(resultatInHistory);
             screenMath.setText(expressionInHistory);
         }
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     screenMath.setText(result.get(0));
+                    textMath = new StringBuilder(screenMath.getText().toString());
+                    submit();
                 }
                 break;
             }
@@ -191,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!ITP.check_error){
                     String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
                     if (Utils.isValidFloat(textAns.toString()))
-                        databaseHelper.insertData(screenTextMath.toString(),textAns.toString(), mydate,"defaut");
+                        databaseHelper.insertData(screenTextMath.toString(),textAns.toString(), mydate);
                 }
 
             }catch(Exception e){ error();}

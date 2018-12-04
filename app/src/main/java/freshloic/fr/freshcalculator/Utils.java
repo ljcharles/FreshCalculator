@@ -19,12 +19,11 @@ final class Utils {
         }
     }
 
-     static boolean isEmptyString(String text) {
-        return (text == null
-                || text.trim().equals("null")
-                || text.trim().length() <= 0
-                || TextUtils.isEmpty(text.trim())
-        );
+     static boolean isNotEmptyString(String text) {
+        return (text != null
+                && !text.trim().equals("null")
+                && text.trim().length() > 0
+                && !TextUtils.isEmpty(text.trim()));
     }
 
      static boolean isValidFloat(String str) {
