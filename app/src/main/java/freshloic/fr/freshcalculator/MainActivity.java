@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ncorti.slidetoact.SlideToActView;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,6 +144,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
 
+            case IMAGE_PICK_GALLERY_CODE: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    CropImage.activity(data.getData())
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(this);
+                }
+                break;
+            }
+
+            case IMAGE_PICK_CAMERA_CODE: {
+                if (resultCode == RESULT_OK && null != data) {
+                    CropImage.activity(image_uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(this);
+                }
+                break;
+            }
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+            }
         }
     }
 
@@ -759,6 +788,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void pickGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("images/*");
+        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
     }
 
     private void pickCamera() {
@@ -799,6 +830,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String p = "tel:" + screenMath.getText().toString();
             i.setData(Uri.parse(p));
             startActivity(i);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case CAMERA_REQUEST_CODE:
+                if(grantResults.length > 0){
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if(cameraAccepted){
+                        pickCamera();
+                    } else {
+                        Toast.makeText(this, "Permission refusée", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case STORAGE_REQUEST_CODE:
+                if(grantResults.length > 0) {
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (writeStorageAccepted) {
+                        pickGallery();
+                    } else {
+                        Toast.makeText(this, "Permission refusée", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
         }
     }
 }
