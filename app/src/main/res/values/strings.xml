@@ -57,4 +57,5 @@
     <string name="todo">TODO</string>
     <string name="Histo">Historique</string>
     <string name="calcul_to_tell">calcul to tel</string>
+    <string name="copied_string">Calcul copié dans le presse-papier</string>
 </resources>

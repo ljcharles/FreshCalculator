@@ -1,10 +1,20 @@
 package freshloic.fr.freshcalculator;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,13 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView screenAns, screenMath;
     SlideToActView slideToActView;
     DatabaseHelper databaseHelper;
-    private static final int REQ_CODE_SPEECH_INPUT = 100;
+    private static final int REQ_CODE_SPEECH_INPUT = 100,
+            CAMERA_REQUEST_CODE = 200, STORAGE_REQUEST_CODE = 400,
+            IMAGE_PICK_GALLERY_CODE = 1000, IMAGE_PICK_CAMERA_CODE = 1001;
 
-    StringBuilder textMath = new StringBuilder();
-    StringBuilder textAns = new StringBuilder("0");
-    StringBuilder screenTextMath = new StringBuilder();
-    String expressionInHistory;
-    String resultatInHistory;
+    StringBuilder textMath = new StringBuilder(), textAns = new StringBuilder("0"), screenTextMath = new StringBuilder();
+    String expressionInHistory, resultatInHistory;
+    String[] cameraPermission, storagePermission;
+    Uri image_uri;
     int checkSubmit = 0;
 
     private int[] idArray = {
@@ -41,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.btnClear,R.id.btnBackSpace,R.id.btnBracketsOpen,R.id.btnBracketsClose,R.id.btnSquare,
             R.id.btnSeven,R.id.btnNine,R.id.btnEight,R.id.btnDiv,R.id.btnMod,R.id.btnBin,R.id.btnDec,
             R.id.btnFour,R.id.btnFive,R.id.btnSix,R.id.btnMulti,R.id.btnInverse,R.id.btnCall,R.id.btnPhoto,
-            R.id.btnOne,R.id.btnTwo,R.id.btnThree,R.id.btnMinus,R.id.btnAdd,R.id.btnResult,
+            R.id.btnOne,R.id.btnTwo,R.id.btnThree,R.id.btnMinus,R.id.btnAdd,R.id.btnResult,R.id.txtCal,
             R.id.btnZero,R.id.btnDot,R.id.btnPi,R.id.btnE,R.id.btnPlusMoins,R.id.btnUnivers
     };
 
@@ -78,10 +89,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int anIdArray : idArray) if(findViewById(anIdArray) != null) (findViewById(anIdArray)).setOnClickListener(this);
 
+        screenMath.setOnLongClickListener(v -> {
+            makeCopy();
+            return true;
+        });
+
         ImageButton mSpeakBtn = findViewById(R.id.btnVocal);
         mSpeakBtn.setOnClickListener(v -> startVoiceInput());
+
+        cameraPermission = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
-    
+
+    private void makeCopy() {
+        ClipboardManager cManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cData = ClipData.newPlainText("Expression on screen", screenMath.getText().toString());
+        Objects.requireNonNull(cManager).setPrimaryClip(cData);
+        Toast.makeText(this, R.string.copied_string, Toast.LENGTH_SHORT).show();
+    }
+
     private void startVoiceInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -217,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 makeCall();
                 break;
             case R.id.btnPhoto:
+                showImageImportDialog();
                 break;
             case R.id.btnZero:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -700,6 +727,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 screenMath.setText(screenTextMath.toString());
                 break;
         }
+    }
+
+    private void showImageImportDialog() {
+        String[] items = {"Camera","Galerie"};
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle("Sélectionner une Image");
+        dialog.setItems(items, (dialogInterface, which) -> {
+            if(which == 0){
+                //camera
+                if(!checkCameraPermission()){
+                    requestCameraPermission();
+                }else {
+                    pickCamera();
+                }
+            }
+
+            if(which == 1){
+                //gallery
+                if(!checkStoragePermission()){
+                    requestStoragePermission();
+                }else {
+                    pickGallery();
+                }
+            }
+        });
+
+        dialog.create().show();
+    }
+
+    private void pickGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+    }
+
+    private void pickCamera() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE,"NewPic");
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Image to text");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
+        startActivityForResult(cameraIntent,IMAGE_PICK_CAMERA_CODE);
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkStoragePermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
     }
 
     private void makeCall() {

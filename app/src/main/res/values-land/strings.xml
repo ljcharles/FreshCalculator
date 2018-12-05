@@ -49,4 +49,5 @@
     <string name="name">Ajouter une nouvelle catégorie</string>
     <string name="rechercher">Rechercher</string>
     <string name="Histo">Historique</string>
+    <string name="copied_string">Calcul copié dans le presse-papier</string>
 </resources>
