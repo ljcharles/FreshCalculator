@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,13 +18,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 import com.ncorti.slidetoact.SlideToActView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -38,6 +44,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView screenAns, screenMath;
+    ImageView imageView;
     SlideToActView slideToActView;
     DatabaseHelper databaseHelper;
     private static final int REQ_CODE_SPEECH_INPUT = 100,
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         screenAns = findViewById(R.id.txtResult);
         screenMath = findViewById(R.id.txtCal);
+        imageView = findViewById(R.id.imageView);
 
         Intent receivedIntent = getIntent();
         expressionInHistory = receivedIntent.getStringExtra("expression");
@@ -165,11 +173,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
+
+                imageView.setImageURI(resultUri);
+
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+                TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+
+                if (!textRecognizer.isOperational()){
+                    Toast.makeText(this, "Erreur textRecognizer", Toast.LENGTH_SHORT).show();
+                } else {
+                    Frame frame = new Frame.Builder().setBitmap(bitmapDrawable.getBitmap()).build();
+                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < items.size(); i++){
+                        TextBlock myItem = items.valueAt(i);
+                        stringBuilder.append(myItem.getValue());
+                    }
+
+                    screenMath.setText(stringBuilder.toString());
+                }
             }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+            Exception error = Objects.requireNonNull(result).getError();
+            Toast.makeText(this, ""+error, Toast.LENGTH_SHORT).show();
         }
     }
 

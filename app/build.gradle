@@ -5,6 +5,7 @@ android {
     defaultConfig {
         applicationId "freshloic.fr.freshcalculator"
         minSdkVersion 19
+        //noinspection OldTargetApi
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -34,5 +35,7 @@ dependencies {
     implementation 'me.anwarshahriar:calligrapher:1.0'
     implementation 'com.ncorti:slidetoact:0.5.1'
     implementation 'com.android.support:design:27.1.1'
+    //noinspection GradleDependency
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
 }

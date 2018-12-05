@@ -488,6 +488,15 @@
                 android:src="@drawable/voice_asset"
                 android:theme="@style/MathButton" />
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/imagetotext"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/ic_launcher" />
+
         </LinearLayout>
 
 
