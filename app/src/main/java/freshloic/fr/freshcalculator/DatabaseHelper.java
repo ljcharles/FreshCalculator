@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(SQL_CREATE_CATEGORIES);
         ContentValues insertValues = new ContentValues();
-        insertValues.put(FeedReaderCategory.FeedEntry.COLUMN_NAME_TITLE, "Defaut");
+        insertValues.put(FeedReaderCategory.FeedEntry.COLUMN_NAME_TITLE, "defaut");
         sqLiteDatabase.insert(FeedReaderCategory.FeedEntry.TABLE_NAME, null, insertValues);
     }
 
