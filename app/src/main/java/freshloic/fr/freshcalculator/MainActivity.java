@@ -2,6 +2,7 @@ package freshloic.fr.freshcalculator;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.btnSin,R.id.btnCos,R.id.btnTan,R.id.btnLog,R.id.btnFactorial,R.id.btnPow,R.id.btnModulo,
             R.id.btnClear,R.id.btnBackSpace,R.id.btnBracketsOpen,R.id.btnBracketsClose,R.id.btnSquare,
             R.id.btnSeven,R.id.btnNine,R.id.btnEight,R.id.btnDiv,R.id.btnMod,R.id.btnBin,R.id.btnDec,
-            R.id.btnFour,R.id.btnFive,R.id.btnSix,R.id.btnMulti,R.id.btnInverse,
+            R.id.btnFour,R.id.btnFive,R.id.btnSix,R.id.btnMulti,R.id.btnInverse,R.id.btnCall,R.id.btnPhoto,
             R.id.btnOne,R.id.btnTwo,R.id.btnThree,R.id.btnMinus,R.id.btnAdd,R.id.btnResult,
             R.id.btnZero,R.id.btnDot,R.id.btnPi,R.id.btnE,R.id.btnPlusMoins,R.id.btnUnivers
     };
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Calligrapher calligrapher = new Calligrapher(this);
         calligrapher.setFont(this, "Lato-Regular.ttf",true);
 
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = DatabaseHelper.getInstance(this);
 
         screenAns = findViewById(R.id.txtResult);
         screenMath = findViewById(R.id.txtCal);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour, Entrer votre calcul !");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour, énoncer votre calcul !");
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException ignored) {
@@ -101,9 +102,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    screenMath.setText(result.get(0));
-                    textMath = new StringBuilder(screenMath.getText().toString());
-                    submit();
+
+                    if (!Utils.isContainsLetters(result.get(0))){
+                        screenMath.setText(result.get(0));
+                        textMath = new StringBuilder(screenMath.getText().toString());
+                        screenTextMath = textMath;
+                        submit();
+                    } else {
+                        Toast.makeText(this, "Expression incorrecte", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             }
@@ -178,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(c == '-' || (c == '+') || (c == '/') || (c == '*')) {
                 textMath.setLength(textMath.length() - 1);
                 screenTextMath.setLength(screenTextMath.length() - 1);
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
             }
 
             try{
@@ -188,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 	On verifie les priorités et on formate le resultat pour l'affichage
                 if (!ITP.check_error) textAns = new StringBuilder(ITP.valueMath(elementMath)); // On récupere le résultat
 
-                screenAns.setText(textAns);
+                screenAns.setText(textAns.toString());
 
                 if (!ITP.check_error){
                     String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
@@ -206,6 +213,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
 
         switch (id) {
+            case R.id.btnCall:
+                makeCall();
+                break;
+            case R.id.btnPhoto:
+                break;
             case R.id.btnZero:
                 if (screenTextMath.length() < 38) {    //if length < 38
                     if (checkSubmit == 1) {
@@ -216,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("0");
                     screenTextMath.append("0");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnOne:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -228,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("1");
                     screenTextMath.append("1");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnTwo:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -240,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("2");
                     screenTextMath.append("2");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnThree:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -253,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     screenTextMath.append("3");
                 }
 
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnFour:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -265,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("4");
                     screenTextMath.append("4");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnFive:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -289,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("6");
                     screenTextMath.append("6");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnSeven:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -301,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("7");
                     screenTextMath.append("7");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnEight:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -313,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("8");
                     screenTextMath.append("8");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnNine:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -325,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("9");
                     screenTextMath.append("9");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnDot:
 
@@ -348,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnPi:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -360,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("π");
                     screenTextMath.append("π");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnE:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -372,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("e");
                     screenTextMath.append("e");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnAdd:
                 if (screenTextMath.length() > 0) {
@@ -391,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnMinus:
@@ -410,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnMulti:
                 if (screenTextMath.length() > 0) {
@@ -428,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnDiv:
@@ -448,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnPow:
@@ -469,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnModulo:
@@ -483,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textMath.append("m(");
                         screenTextMath.append("mod(");
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnSquare:
@@ -501,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnLog:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -513,7 +525,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("l(");
                     screenTextMath.append("Log(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnBin:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -525,7 +537,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("b(");
                     screenTextMath.append("bin(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnDec:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -537,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("d(");
                     screenTextMath.append("dec(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnSin:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -549,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("s(");
                     screenTextMath.append("Sin(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnCos:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -561,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("c(");
                     screenTextMath.append("Cos(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnTan:
                 if (screenTextMath.length() < 38) {    //if length < 38
@@ -573,7 +585,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("t(");
                     screenTextMath.append("Tan(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnUnivers:
                 if (!Objects.equals(screenTextMath.toString(), "42")) {
@@ -587,7 +599,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         screenTextMath.append("42");
                         screenAns.setText(R.string.Univers);
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnBracketsOpen:
@@ -600,7 +612,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textMath.append("(");
                     screenTextMath.append("(");
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
             case R.id.btnBracketsClose:
                 if (screenTextMath.length() > 0) {
@@ -613,7 +625,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textMath.append(")");
                         screenTextMath.append(")");
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
 
@@ -649,13 +661,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                     }
-                    screenMath.setText(screenTextMath);
+                    screenMath.setText(screenTextMath.toString());
                 }
                 break;
             case R.id.btnInverse:
                 if (screenTextMath.length() == 0) screenTextMath = new StringBuilder(textAns);
                 screenTextMath = new StringBuilder("1/(" + screenTextMath + ")");
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 if (checkSubmit == 0) submit();
                 textMath = new StringBuilder("1/" + textAns);
                 submit();
@@ -668,7 +680,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textMath = new StringBuilder();
                 screenTextMath = new StringBuilder();
                 textAns = new StringBuilder("0");
-                screenAns.setText(textAns);
+                screenAns.setText(textAns.toString());
                 screenMath.setText("|");
                 break;
             case R.id.btnBackSpace:
@@ -685,8 +697,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         screenTextMath = new StringBuilder(screenTextMath.substring(0, screenTextMath.length() - 1));
                     }
                 }
-                screenMath.setText(screenTextMath);
+                screenMath.setText(screenTextMath.toString());
                 break;
+        }
+    }
+
+    private void makeCall() {
+        if(Utils.isNotEmptyString(screenMath.getText().toString()) && Utils.isNumberPhone(screenMath.getText().toString())) {
+            Intent i = new Intent(Intent.ACTION_DIAL);
+            String p = "tel:" + screenMath.getText().toString();
+            i.setData(Uri.parse(p));
+            startActivity(i);
         }
     }
 }

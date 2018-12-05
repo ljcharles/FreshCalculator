@@ -48,4 +48,5 @@
     <string name="item1">Item1</string>
     <string name="name">Ajouter une nouvelle catégorie</string>
     <string name="rechercher">Rechercher</string>
+    <string name="Histo">Historique</string>
 </resources>

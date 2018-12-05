@@ -7,6 +7,8 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 
+import java.util.regex.Pattern;
+
 final class Utils {
     static void setConfigTitleBar(ActionBar supportActionBar){
         if(supportActionBar != null){
@@ -33,5 +35,13 @@ final class Utils {
             return false;
         }
         return true;
+    }
+
+    static boolean isNumberPhone(String s) {
+        return Pattern.compile("^\\d{3}\\d{3}\\d{4}$").matcher(s).find();
+    }
+
+    static boolean isContainsLetters(String s) {
+        return Pattern.compile("[a-zA-Z]+").matcher(s).find();
     }
 }

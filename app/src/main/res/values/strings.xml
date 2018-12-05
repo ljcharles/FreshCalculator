@@ -55,4 +55,6 @@
     <string name="supprimer_historique">Supprimer Historique</string>
     <string name="textview_4">textView 4</string>
     <string name="todo">TODO</string>
+    <string name="Histo">Historique</string>
+    <string name="calcul_to_tell">calcul to tel</string>
 </resources>

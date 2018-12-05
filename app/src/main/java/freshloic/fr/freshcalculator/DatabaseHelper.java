@@ -36,15 +36,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "Calculs.db";
+    private static DatabaseHelper mInstance = null;
 
-     DatabaseHelper(Context context){
+    DatabaseHelper(Context context){
          super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    static DatabaseHelper getInstance(Context ctx) {
+        return (mInstance == null) ? mInstance = new DatabaseHelper(ctx.getApplicationContext()) : mInstance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(SQL_CREATE_CATEGORIES);
+        ContentValues insertValues = new ContentValues();
+        insertValues.put(FeedReaderCategory.FeedEntry.COLUMN_NAME_TITLE, "Defaut");
+        sqLiteDatabase.insert(FeedReaderCategory.FeedEntry.TABLE_NAME, null, insertValues);
     }
 
     @Override

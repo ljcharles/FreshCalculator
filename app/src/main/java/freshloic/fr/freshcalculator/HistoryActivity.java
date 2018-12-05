@@ -44,7 +44,7 @@ public class HistoryActivity extends AppCompatActivity {
         Calligrapher calligrapher = new Calligrapher(this);
         calligrapher.setFont(this, "Lato-Regular.ttf",true);
 
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = DatabaseHelper.getInstance(this);
 
         listItem = new ArrayList<>();
 

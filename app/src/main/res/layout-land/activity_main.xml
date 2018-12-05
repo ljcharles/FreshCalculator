@@ -717,9 +717,9 @@
                 android:padding="2dp"
                 app:area_margin="8dp"
                 app:slider_height="48dp"
-                app:inner_color="@color/pure_red"
-                app:outer_color="#92FFFFFF"
-                app:text="Historique" />
+                app:outer_color="@color/pure_red"
+                app:inner_color="#92FFFFFF"
+                app:text="@string/Histo" />
 
             <ImageButton
                 android:id="@+id/btnPhoto"
