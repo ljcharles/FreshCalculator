@@ -59,4 +59,5 @@
     <string name="calcul_to_tell">calcul to tel</string>
     <string name="copied_string">Calcul copié dans le presse-papier</string>
     <string name="imagetotext">ImageToText</string>
+    <string name="entrer_votre_fonction">Entrer votre fonction</string>
 </resources>

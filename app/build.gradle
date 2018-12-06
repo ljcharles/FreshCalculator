@@ -38,4 +38,5 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
+    implementation 'com.jjoe64:graphview:4.2.2'
 }
