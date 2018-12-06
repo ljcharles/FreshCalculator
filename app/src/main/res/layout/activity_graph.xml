@@ -10,7 +10,7 @@
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
@@ -240,6 +240,7 @@
             android:background="@drawable/my_button_bg"
             android:text="@string/sin"
             android:textAllCaps="false"
+            android:textSize="12sp"
             android:theme="@style/MathButton" />
 
         <Button
@@ -256,6 +257,7 @@
             android:background="@drawable/my_button_bg"
             android:text="@string/cos"
             android:textAllCaps="false"
+            android:textSize="12sp"
             android:theme="@style/MathButton" />
 
         <Button
@@ -272,6 +274,7 @@
             android:background="@drawable/my_button_bg"
             android:text="@string/tan"
             android:textAllCaps="false"
+            android:textSize="12sp"
             android:theme="@style/MathButton" />
 
         <Button
@@ -287,6 +290,64 @@
             android:layout_weight="1"
             android:background="@drawable/my_button_bg"
             android:text="@string/x_maj"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:theme="@style/MathButton" />
+
+        <Button
+            android:id="@+id/btnBackSpace2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="1.5dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="1.5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/back_button_bg"
+            android:text="@string/back_delete"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:theme="@style/AccentButton" />
+
+        <Button
+            android:id="@+id/btnClear2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="1.5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="1.5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/accent_button_bg"
+            android:text="@string/Clear"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:theme="@style/AccentButton" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBracketsOpen2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="1.5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="1.5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/operator_button_bg"
+            android:text="@string/parenthese_open"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:theme="@style/MathButton" />
@@ -355,23 +416,6 @@
             android:layout_weight="1"
             android:background="@drawable/operator_button_bg"
             android:text="@string/multi_symbole"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:theme="@style/MathButton" />
-
-        <Button
-            android:id="@+id/btnBracketsOpen2"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="1.5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="1.5dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/operator_button_bg"
-            android:text="@string/parenthese_open"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:theme="@style/MathButton" />

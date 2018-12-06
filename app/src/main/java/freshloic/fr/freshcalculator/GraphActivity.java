@@ -18,8 +18,8 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     StringBuilder textMath = new StringBuilder(), screenTextMath = new StringBuilder();
 
     private int[] idArray = {
-            R.id.btnSin2,R.id.btnCos2,R.id.btnTan2,R.id.btnX,
-            R.id.btnBracketsOpen2,R.id.btnBracketsClose2,
+            R.id.btnSin2,R.id.btnCos2,R.id.btnTan2,R.id.btnX,R.id.btnClear2,
+            R.id.btnBracketsOpen2,R.id.btnBracketsClose2,R.id.btnBackSpace2,
             R.id.btnSeven,R.id.btnNine,R.id.btnEight,R.id.btnDiv2,
             R.id.btnFour,R.id.btnFive,R.id.btnSix,R.id.btnMulti2,
             R.id.btnOne,R.id.btnTwo,R.id.btnThree,R.id.btnMinus2,R.id.btnAdd2,
@@ -43,9 +43,6 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Function Added", Toast.LENGTH_SHORT).show();
                 makeGraph(name);
                 checkSubmit = 1;
-                screenTextMath = new StringBuilder();
-                textMath = new StringBuilder();
-                screenMath.setText("");
 
             }else {
                 Toast.makeText(this, "Function not Added", Toast.LENGTH_SHORT).show();
@@ -367,7 +364,27 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
                     screenMath.setText(screenTextMath.toString());
                 }
                 break;
-
+            case R.id.btnClear2:
+                textMath = new StringBuilder();
+                screenTextMath = new StringBuilder();
+                screenMath.setText("");
+                break;
+            case R.id.btnBackSpace2:
+                if (screenMath.length() > 0 && textMath.length() > 0) {
+                    char c = textMath.charAt(textMath.length() - 1);
+                    if (textMath.length() > 1 && c == '(' && textMath.charAt(textMath.length() - 2) == '^') {
+                        screenTextMath = new StringBuilder(screenTextMath.substring(0, screenTextMath.length() - 2));
+                        textMath = new StringBuilder(textMath.substring(0, textMath.length() - 2));
+                    } else if (textMath.length() > 1 && c == '(' && (textMath.charAt(textMath.length() - 2) == 's' || textMath.charAt(textMath.length() - 2) == 'c' || textMath.charAt(textMath.length() - 2) == 't')) {
+                        textMath = new StringBuilder(textMath.substring(0, textMath.length() - 2));
+                        screenTextMath = new StringBuilder(screenTextMath.substring(0, screenTextMath.length() - 4));
+                    } else {
+                        textMath = new StringBuilder(textMath.substring(0, textMath.length() - 1));
+                        screenTextMath = new StringBuilder(screenTextMath.substring(0, screenTextMath.length() - 1));
+                    }
+                }
+                screenMath.setText(screenTextMath.toString());
+                break;
         }
     }
 }
