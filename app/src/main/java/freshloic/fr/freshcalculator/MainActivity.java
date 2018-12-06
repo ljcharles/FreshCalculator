@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (id){
             case R.id.title1:
-                Toast.makeText(this, "Item1 Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,GraphActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
