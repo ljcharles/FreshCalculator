@@ -3,6 +3,8 @@ package freshloic.fr.freshcalculator;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class GraphActivity extends AppCompatActivity implements View.OnClickListener {
     FloatingActionButton add_graph;
     TextView screenMath;
+    GraphView graph;
     private int checkSubmit = 0;
     StringBuilder textMath = new StringBuilder(), screenTextMath = new StringBuilder();
 
@@ -33,6 +36,7 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
 
         add_graph = findViewById(R.id.add_graph);
         screenMath = findViewById(R.id.add_function);
+        graph = findViewById(R.id.graph);
 
         for (int anIdArray : idArray) if(findViewById(anIdArray) != null) (findViewById(anIdArray)).setOnClickListener(this);
 
@@ -40,14 +44,33 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
             String name = textMath.toString();
 
             if (Utils.isNotEmptyString(name)){
-                Toast.makeText(this, "Function Added", Toast.LENGTH_SHORT).show();
-                makeGraph(name);
-                checkSubmit = 1;
-
+                if (Utils.isContainsRegex(name,"X")){
+                    Toast.makeText(this, "Function Added", Toast.LENGTH_SHORT).show();
+                    makeGraph(name);
+                    checkSubmit = 1;
+                } else {
+                    Toast.makeText(this, "Il manque X dans la fonction", Toast.LENGTH_SHORT).show();
+                }
             }else {
                 Toast.makeText(this, "Function not Added", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.graph_menu,menu);
+        MenuItem shareItem = menu.findItem(R.id.shareGraph);
+
+        shareItem.setOnMenuItemClickListener(menuItem -> {
+            shareGraph();
+            return false;
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void shareGraph() {
+
     }
 
     private void makeGraph(String name) {
@@ -55,7 +78,6 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
 
         x=-5.0;
 
-        GraphView graph = findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
         String nameAvantX, nameApresX, StringToEval,result;
@@ -80,6 +102,8 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
             series.appendData(new DataPoint(x,y), true, 500);
         }
         graph.addSeries(series);
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScrollable(true);
     }
 
     @Override
@@ -96,7 +120,8 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
                     }
                     if (textMath.length() > 0) {
                         char c = textMath.charAt(textMath.length() - 1);
-                        if(c != 'X' && (!Character.isDigit(c))){
+                        if(c != 'X' && (!Character.isDigit(c))
+                                && !Utils.isContainsRegex(textMath.toString(),"X")){
                             textMath.append("X");
                             screenTextMath.append("X");
                         }
@@ -368,6 +393,7 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
                 textMath = new StringBuilder();
                 screenTextMath = new StringBuilder();
                 screenMath.setText("");
+                graph.removeAllSeries();
                 break;
             case R.id.btnBackSpace2:
                 if (screenMath.length() > 0 && textMath.length() > 0) {

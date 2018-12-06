@@ -44,4 +44,8 @@ final class Utils {
     static boolean isContainsLetters(String s) {
         return Pattern.compile("[a-zA-Z]+").matcher(s).find();
     }
+
+    static boolean isContainsRegex(String s,String regexToFind) {
+        return Pattern.compile(regexToFind).matcher(s).find();
+    }
 }

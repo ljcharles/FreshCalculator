@@ -41,6 +41,8 @@ import java.util.Objects;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
+import static android.provider.MediaStore.Images.Media.*;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView screenAns, screenMath;
@@ -183,21 +185,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 imageView.setImageURI(resultUri);
 
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-                TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
+                //Bitmap textBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cat);
+
+                //if(textBitmap == null) Log.e("test", "vrzi");
+
+                TextRecognizer textRecognizer = new TextRecognizer.Builder(this).build();
                 if (!textRecognizer.isOperational()){
                     Toast.makeText(this, "Erreur textRecognizer", Toast.LENGTH_SHORT).show();
                 } else {
-                    Frame frame = new Frame.Builder().setBitmap(bitmapDrawable.getBitmap()).build();
-                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
+
+                    Frame frame = null;
+                    if (bitmapDrawable.getBitmap() != null) {
+                        frame = new Frame.Builder().setBitmap(bitmapDrawable.getBitmap()).build();
+                        //frame = new Frame.Builder().setBitmap(textBitmap).build();
+                    }
+                    SparseArray<TextBlock> items = null;
+                    if (frame != null) {
+                        items = textRecognizer.detect(frame);
+                    }
                     StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < items.size(); i++){
-                        TextBlock myItem = items.valueAt(i);
-                        stringBuilder.append(myItem.getValue());
+
+                    if (items != null) {
+                        for (int i = 0; i < items.size(); i++){
+                            TextBlock myItem = items.valueAt(i);
+                            stringBuilder.append(myItem.getValue());
+                        }
+                    }else{
+                        stringBuilder.append("0");
                     }
 
                     screenMath.setText(stringBuilder.toString());
                 }
+                textRecognizer.release();
             }
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
             Exception error = Objects.requireNonNull(result).getError();
@@ -285,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 screenAns.setText(textAns.toString());
 
                 if (!ITP.check_error){
+
                     String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
                     if (Utils.isValidFloat(textAns.toString()))
                         databaseHelper.insertData(screenTextMath.toString(),textAns.toString(), mydate);
@@ -819,16 +840,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void pickGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        /*Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("images/*");
-        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
+        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);*/
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
+        pickIntent = pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+        startActivityForResult(chooserIntent, IMAGE_PICK_GALLERY_CODE);
     }
 
     private void pickCamera() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.TITLE,"NewPic");
-        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Image to text");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+        contentValues.put(TITLE,"NewPic");
+        contentValues.put(DESCRIPTION,"Image to text");
+        image_uri = getContentResolver().insert(EXTERNAL_CONTENT_URI,contentValues);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);

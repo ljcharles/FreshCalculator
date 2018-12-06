@@ -8,6 +8,12 @@
         app:showAsAction="always">
     </item>
     <item
+        android:title="@string/partager_l_historique"
+        android:id="@+id/shareHisto"
+        android:icon="@drawable/ic_share_black_24dp"
+        app:showAsAction="always">
+    </item>
+    <item
         android:title="@string/rechercher"
         android:id="@+id/recherche"
         android:icon="@drawable/ic_action_search"

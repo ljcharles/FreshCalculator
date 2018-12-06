@@ -62,4 +62,6 @@
     <string name="entrer_votre_fonction">Entrer votre fonction: 2*X+1</string>
     <string name="x_maj">X</string>
     <string name="multi_symbole">*</string>
+    <string name="partager_l_historique">Partager l\'historique</string>
+    <string name="partager_le_graphe">partager le graphe</string>
 </resources>
