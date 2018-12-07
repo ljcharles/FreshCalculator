@@ -1,5 +1,7 @@
 package freshloic.fr.freshcalculator;
 
+import android.graphics.Bitmap;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     GraphView graph;
     private int checkSubmit = 0;
     StringBuilder textMath = new StringBuilder(), screenTextMath = new StringBuilder();
+    String sujet, body;
+    Bitmap image;
 
     private int[] idArray = {
             R.id.btnSin2,R.id.btnCos2,R.id.btnTan2,R.id.btnX,R.id.btnClear2,
@@ -33,6 +37,9 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         add_graph = findViewById(R.id.add_graph);
         screenMath = findViewById(R.id.add_function);
@@ -70,7 +77,10 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void shareGraph() {
-
+        sujet = "Graphique";
+        body = "L'expression du graphique est : " + screenMath.getText().toString();
+        image = Utils.screenShot(getWindow().getDecorView().getRootView());
+        Utils.shareUp(this,sujet, body, image);
     }
 
     private void makeGraph(String name) {

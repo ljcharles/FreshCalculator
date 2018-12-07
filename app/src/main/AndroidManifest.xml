@@ -31,7 +31,9 @@
         <activity
             android:name=".HistoryActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".GraphActivity" />
+        <activity
+            android:name=".GraphActivity"
+            android:hardwareAccelerated="true"/>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
     </application>
 

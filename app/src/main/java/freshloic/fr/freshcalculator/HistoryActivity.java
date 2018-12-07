@@ -146,11 +146,38 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    private void shareHisto() {
+        String sujet = "Historique";
+        String body = "";
+
+        Cursor cursor = databaseHelper.viewData();
+
+        if (cursor.getCount() == 0){
+            body = "Liste vide";
+        }else {
+            while (cursor.moveToNext()){
+                body = cursor.getString(1) + " " +
+                        cursor.getString(2) + " " +
+                        cursor.getString(3) + " " +
+                        cursor.getString(4) + "\n";
+            }
+        }
+        cursor.close();
+
+        Utils.shareUp(this, sujet, body, null);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item,menu);
         MenuItem searchItem = menu.findItem(R.id.recherche);
         MenuItem deleteItem = menu.findItem(R.id.supressionHisto);
+        MenuItem shareItem = menu.findItem(R.id.shareHisto);
+
+        shareItem.setOnMenuItemClickListener(menuItem -> {
+            shareHisto();
+            return false;
+        });
 
         deleteItem.setOnMenuItemClickListener(menuItem -> {
             if (databaseHelper.deleteData(null,true)){

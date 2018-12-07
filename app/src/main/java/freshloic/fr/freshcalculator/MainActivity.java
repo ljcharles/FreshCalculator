@@ -142,14 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    if (!Utils.isContainsLetters(result.get(0))){
-                        screenMath.setText(result.get(0));
-                        textMath = new StringBuilder(screenMath.getText().toString());
-                        screenTextMath = textMath;
-                        submit();
-                    } else {
-                        Toast.makeText(this, "Expression incorrecte", Toast.LENGTH_SHORT).show();
-                    }
+                    calculIntermediaire(result.get(0));
                 }
                 break;
             }
@@ -215,13 +208,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         stringBuilder.append("0");
                     }
 
-                    screenMath.setText(stringBuilder.toString());
+                    calculIntermediaire(stringBuilder.toString());
                 }
                 textRecognizer.release();
             }
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
             Exception error = Objects.requireNonNull(result).getError();
             Toast.makeText(this, ""+error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void calculIntermediaire(String s) {
+        if (!Utils.isContainsLetters(s)){
+            screenMath.setText(s);
+            textMath = new StringBuilder(screenMath.getText().toString());
+            screenTextMath = textMath;
+            submit();
+        } else {
+            Toast.makeText(this, "Expression incorrecte", Toast.LENGTH_SHORT).show();
         }
     }
 
