@@ -4,10 +4,10 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,12 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DatabaseHelper databaseHelper;
     private static final int REQ_CODE_SPEECH_INPUT = 100,
             CAMERA_REQUEST_CODE = 200, STORAGE_REQUEST_CODE = 400,
-            IMAGE_PICK_GALLERY_CODE = 1000, IMAGE_PICK_CAMERA_CODE = 1001;
+            IMAGE_PICK_GALLERY_CODE = 1000, IMAGE_PICK_CAMERA_CODE = 1888;
 
     StringBuilder textMath = new StringBuilder(), textAns = new StringBuilder("0"), screenTextMath = new StringBuilder();
     String expressionInHistory, resultatInHistory;
     String[] cameraPermission, storagePermission;
-    Uri image_uri;
     int checkSubmit = 0;
 
     private int[] idArray = {
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour, énoncer votre calcul !");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Bonjour Mr STATTNER, énoncer votre calcul !");
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException ignored) {
@@ -159,9 +159,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case IMAGE_PICK_CAMERA_CODE: {
                 if (resultCode == RESULT_OK && null != data) {
-                    CropImage.activity(image_uri)
+                    /*CropImage.activity(image_uri)
                             .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(this);
+                            .start(this);*/
+                    Log.e("test", "erreur " + data);
+                    cameraFunction(data);
+
                 }
                 break;
             }
@@ -174,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
+
+                Log.e("test", "erreur " + resultUri);
 
                 imageView.setImageURI(resultUri);
 
@@ -218,8 +223,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void cameraFunction(Intent data){
+        //Bitmap textBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.trois);
+        Bitmap textBitmap = (Bitmap) Objects.requireNonNull(Objects.requireNonNull(data).getExtras()).get("data");
+        if(textBitmap == null) Log.e("test", "vrzi");
+        else Log.e("test", "test " + textBitmap);
+
+        TextRecognizer textRecognizer = new TextRecognizer.Builder(this).build();
+        if (!textRecognizer.isOperational()){
+            Toast.makeText(this, "Erreur textRecognizer", Toast.LENGTH_SHORT).show();
+        } else {
+
+            Frame frame;
+            frame = new Frame.Builder().setBitmap(Objects.requireNonNull(textBitmap)).build();
+            SparseArray<TextBlock> items = null;
+            if (frame != null) {
+                items = textRecognizer.detect(frame);
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+
+            if (items != null) {
+                for (int i = 0; i < items.size(); i++){
+                    TextBlock myItem = items.valueAt(i);
+                    stringBuilder.append(myItem.getValue());
+                }
+            }
+
+            calculIntermediaire(stringBuilder.toString());
+        }
+        textRecognizer.release();
+    }
+
     private void calculIntermediaire(String s) {
-        if (!Utils.isContainsLetters(s)){
+        if(!Utils.isNotEmptyString(s)) s = "0";
+        if (!s.matches("[a-wyzA-Z]+")){
             screenMath.setText(s);
             textMath = new StringBuilder(screenMath.getText().toString());
             screenTextMath = textMath;
@@ -566,7 +603,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         if (textMath.length() > 0) {
                             char c = textMath.charAt(textMath.length() - 1);
-                            if(c != '/' && (c != '*') && (c != '-') && (c != '+')) {
+                            if(c != '/' && (c != '*') && (c != '-') && (c != '+') && (c != '@')) {
                                 textMath.append("/");
                                 screenTextMath.append("÷");
                             }
@@ -618,12 +655,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textMath = new StringBuilder();
                         checkSubmit = 0;
                     }
-                    if (textMath.length() > 0) {
+
+                    if (textMath.length()>0) {
+
                         char c = textMath.charAt(textMath.length() - 1);
-                        if(c != '@') {
+                        if (c == '-' || (c == '+') || (c == '/') || (c == '*') || (c == '@') || (c == '(')) {
                             textMath.append("@");
                             screenTextMath.append("√");
                         }
+                    }else {
+                        textMath.append("@");
+                        screenTextMath.append("√");
                     }
                 }
                 screenMath.setText(screenTextMath.toString());
@@ -722,8 +764,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textMath = new StringBuilder();
                         checkSubmit = 0;
                     }
-                    textMath.append("(");
-                    screenTextMath.append("(");
+
+                    if (textMath.length()>0) {
+
+                        char c = textMath.charAt(textMath.length() - 1);
+                        if (c != ')') {
+                            textMath.append("(");
+                            screenTextMath.append("(");
+                        }
+                    }else {
+                        textMath.append("(");
+                        screenTextMath.append("(");
+                    }
                 }
                 screenMath.setText(screenTextMath.toString());
                 break;
@@ -735,8 +787,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             textMath = new StringBuilder();
                             checkSubmit = 0;
                         }
-                        textMath.append(")");
-                        screenTextMath.append(")");
+
+                        int open = 0, close = 0;
+                        for (int i = 0; i < textMath.length(); i++) {
+                            char c = textMath.charAt(i);
+                            if (c == '(') open++;
+                            if (c == ')') close++;
+                        }
+
+                        if (open > close) {
+                            textMath.append(")");
+                            screenTextMath.append(")");
+                        }
                     }
                     screenMath.setText(screenTextMath.toString());
                 }
@@ -786,7 +848,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 submit();
                 break;
             case R.id.btnResult:
-                if (screenTextMath.length() == 0 || (Objects.equals(screenTextMath.toString(), "√"))) break;
+                if (screenTextMath.length() == 0){
+                    break;
+                }
+
+                if (textMath.length()>0) {
+                    char c = textMath.charAt(textMath.length() - 1);
+                    if (c == '@') {
+                        textMath.append("1");
+                        screenTextMath.append("1");
+                        screenMath.append("1");
+                    }
+                }
+
                 submit();
                 break;
             case R.id.btnClear:
@@ -861,13 +935,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void pickCamera() {
-        ContentValues contentValues = new ContentValues();
+        /*ContentValues contentValues = new ContentValues();
         contentValues.put(TITLE,"NewPic");
         contentValues.put(DESCRIPTION,"Image to text");
-        image_uri = getContentResolver().insert(EXTERNAL_CONTENT_URI,contentValues);
+        image_uri = getContentResolver().insert(EXTERNAL_CONTENT_URI,contentValues);*/
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
+        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
         startActivityForResult(cameraIntent,IMAGE_PICK_CAMERA_CODE);
     }
 

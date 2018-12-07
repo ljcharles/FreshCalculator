@@ -3,10 +3,9 @@ package freshloic.fr.freshcalculator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -53,17 +52,19 @@ final class Utils {
         return Pattern.compile("^\\d{3}\\d{3}\\d{4}$").matcher(s).find();
     }
 
-    static boolean isContainsLetters(String s) {
+    /*static boolean isContainsLetters(String s) {
         return Pattern.compile("[a-zA-Z]+").matcher(s).find();
     }
 
     static boolean isContainsRegex(String s,String regexToFind) {
         return Pattern.compile(regexToFind).matcher(s).find();
-    }
+    }*/
 
     static Bitmap screenShot(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        view.draw(new Canvas(bitmap));
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
         return bitmap;
     }
 

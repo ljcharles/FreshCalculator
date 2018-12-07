@@ -51,13 +51,13 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
             String name = textMath.toString();
 
             if (Utils.isNotEmptyString(name)){
-                if (Utils.isContainsRegex(name,"X")){
+                /*if (Utils.isContainsRegex(name,"X")){*/
                     Toast.makeText(this, "Function Added", Toast.LENGTH_SHORT).show();
                     makeGraph(name);
                     checkSubmit = 1;
-                } else {
+                /*} else {
                     Toast.makeText(this, "Il manque X dans la fonction", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }else {
                 Toast.makeText(this, "Function not Added", Toast.LENGTH_SHORT).show();
             }
@@ -79,29 +79,24 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     private void shareGraph() {
         sujet = "Graphique";
         body = "L'expression du graphique est : " + screenMath.getText().toString();
-        image = Utils.screenShot(getWindow().getDecorView().getRootView());
+        image = Utils.screenShot(graph);
         Utils.shareUp(this,sujet, body, image);
     }
 
     private void makeGraph(String name) {
         double x,y;
 
-        x=-5.0;
+        x=0.0;
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
-        String nameAvantX, nameApresX, StringToEval,result;
+        String StringToEval,result;
         String[] elementMath;
-
-        String[] sTemp=name.split("X");// 'X' is a delimiter
-
-        nameAvantX = sTemp[0];
-        nameApresX = sTemp[sTemp.length - 1];
 
 
         for (int i=0; i<500; i++){
-            x += 0.1;
-            StringToEval = nameAvantX + String.valueOf(Math.round(x*100)/100) + nameApresX;
+            x += 0.01;
+            StringToEval = name.replace("X", Double.toString(x));
             StringToExpressionFix ITP = new StringToExpressionFix();
 
             elementMath = ITP.processString(StringToEval);
@@ -130,8 +125,7 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
                     }
                     if (textMath.length() > 0) {
                         char c = textMath.charAt(textMath.length() - 1);
-                        if(c != 'X' && (!Character.isDigit(c))
-                                && !Utils.isContainsRegex(textMath.toString(),"X")){
+                        if(c != 'X' && (!Character.isDigit(c))){
                             textMath.append("X");
                             screenTextMath.append("X");
                         }
