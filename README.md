@@ -22,3 +22,10 @@ En cliquant sur les trois petits points de la barre de l'application :
 3) J'ai ajouté un convertisseur de température C° to F° et inversement.
 
 4) J'ai ajouté un calculateur de vitesse en temps réel.
+
+![alt](/images/equationActivity.PNG)  
+![alt](/images/graphActivity.PNG)  
+![alt](/images/mainActivity.PNG)  
+![alt](/images/speedActivity.PNG)  
+![alt](/images/splashscreenActivity.PNG)  
+![alt](/images/temperatureActivity.PNG)  
