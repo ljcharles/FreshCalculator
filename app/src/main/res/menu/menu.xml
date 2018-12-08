@@ -6,4 +6,19 @@
         android:icon="@drawable/line_chart_asset"
     android:id="@+id/title1"
     app:showAsAction="never"/>
+    <item
+        android:title="@string/r_solveur_d_quation_quadratrique"
+        android:icon="@drawable/line_chart_asset"
+        android:id="@+id/title2"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/convertisseur_de_temp_rature"
+        android:icon="@drawable/line_chart_asset"
+        android:id="@+id/title3"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/calcul_de_vitesse_en_temps_r_el"
+        android:icon="@drawable/line_chart_asset"
+        android:id="@+id/title4"
+        app:showAsAction="never"/>
 </menu>

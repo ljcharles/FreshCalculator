@@ -314,6 +314,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.title1:
                 startActivity(new Intent(this,GraphActivity.class));
                 break;
+            case R.id.title2:
+                startActivity(new Intent(this,EquationSolverActivity.class));
+                break;
+            case R.id.title3:
+                startActivity(new Intent(this,TemperatureActivity.class));
+                break;
+            case R.id.title4:
+                startActivity(new Intent(this,SpeedActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

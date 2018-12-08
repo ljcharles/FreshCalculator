@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EquationSolverActivity">
+
+    <EditText
+        android:id="@+id/solv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/a"
+        android:inputType="numberDecimal|numberSigned"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/solv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/b"
+        android:inputType="numberDecimal|numberSigned"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/solv3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/c"
+        android:inputType="numberDecimal|numberSigned"
+        tools:ignore="Autofill" />
+
+    <Button
+        android:id="@+id/button_go"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/my_button_bg"
+        android:text="@string/r_soudre_ax_2_bx_c_0"
+        android:theme="@style/DefautNumberButton" />
+
+    <TextView
+        android:id="@+id/textView_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp" />
+</LinearLayout>

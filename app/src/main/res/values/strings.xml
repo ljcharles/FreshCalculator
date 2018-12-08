@@ -64,4 +64,18 @@
     <string name="multi_symbole">*</string>
     <string name="partager_l_historique">Partager l\'historique</string>
     <string name="partager_le_graphe">partager le graphe</string>
+    <string name="r_solveur_d_quation_quadratrique">Résolveur d\'équation quadratrique</string>
+    <string name="r_soudre_ax_2_bx_c_0">Résoudre ax² + bx + c = 0</string>
+    <string name="b">b</string>
+    <string name="a">a</string>
+    <string name="c">c</string>
+    <string name="root_negatif">Le discriminant Δ est négatif. Donc le trinôme n’admet aucune racine réelle.</string>
+    <string name="convertisseur_de_temp_rature">Convertisseur de température</string>
+    <string name="calcul_de_vitesse_en_temps_r_el">Calcul de vitesse en temps réel</string>
+    <string name="convertisseur_de_temp_rature_fahrenheit_en_celsius_f_c">Convertisseur de température Fahrenheit en Celsius F° à C°</string>
+    <string name="_0_0_f">0.0 F</string>
+    <string name="_0_0_c">0.0 C</string>
+    <string name="calculateur_de_vitesse_en_temps_r_el">Calculateur de vitesse en temps réel</string>
+    <string name="_0_0_m_s">0.0 m/s</string>
+    <string name="running_frame">Running frame</string>
 </resources>
