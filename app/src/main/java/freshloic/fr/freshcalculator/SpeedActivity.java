@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 public class SpeedActivity extends AppCompatActivity implements LocationListener {
     ImageView imageView;
-    private LocationManager locationManager;
     private AnimationDrawable myAnimation;
 
     @Override
@@ -30,10 +29,14 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
         myAnimation = (AnimationDrawable) imageView.getBackground();
 
 
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
         }
+        if (locationManager != null) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+        this.onLocationChanged(null);
 
     }
 
@@ -43,14 +46,7 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
         if (requestCode == 123) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
-                if (locationManager != null) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-                }
-                this.onLocationChanged(null);
+                Toast.makeText(this, "You give permission to access device location", Toast.LENGTH_LONG).show();
             } else {
                 // User refused to grant permission. You can add AlertDialog here
                 Toast.makeText(this, "You didn't give permission to access device location", Toast.LENGTH_LONG).show();
@@ -66,7 +62,10 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
             textView.setText("-,- m/s");
             myAnimation.stop();
         }else {
-            textView.setText(String.format("%s m/s", location.getSpeed()));
+            textView.setText(String.format("Coordonnées \n Latitude : %s  \n Longitude : %s \n %s m/s",
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    location.getSpeed()));
             myAnimation.start();
         }
     }
