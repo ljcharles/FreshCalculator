@@ -16,27 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SpeedActivity extends AppCompatActivity implements LocationListener {
-    ImageView imageView;
     private AnimationDrawable myAnimation;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speed);
 
-        imageView = findViewById(R.id.imageView3);
+        ImageView imageView = findViewById(R.id.imageView3);
         imageView.setBackgroundResource(R.drawable.frame_animation);
         myAnimation = (AnimationDrawable) imageView.getBackground();
 
 
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
         }
-        if (locationManager != null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
-        this.onLocationChanged(null);
+
+        runCat();
 
     }
 
@@ -45,6 +43,7 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 123) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                runCat();
                 // Permission granted.
                 Toast.makeText(this, "You give permission to access device location", Toast.LENGTH_LONG).show();
             } else {
@@ -52,6 +51,16 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
                 Toast.makeText(this, "You didn't give permission to access device location", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void runCat(){
+        if ((locationManager != null)) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+        this.onLocationChanged(null);
     }
 
 
@@ -66,7 +75,8 @@ public class SpeedActivity extends AppCompatActivity implements LocationListener
                     location.getLatitude(),
                     location.getLongitude(),
                     location.getSpeed()));
-            myAnimation.start();
+            if (location.getSpeed()>0) myAnimation.start();
+            else myAnimation.stop();
         }
     }
 

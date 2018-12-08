@@ -34,16 +34,12 @@
     <string name="photo_to_calcul">Photo to calcul</string>
     <string name="mathError">Erreur</string>
     <string name="plus_moins">-x</string>
-    <string name="ln">ln</string>
     <string name="log">log</string>
     <string name="e">e</string>
     <string name="bin">bin</string>
     <string name="dec">dec</string>
     <string name="mod">mod</string>
     <string name="earth">∞</string>
-    <string name="asin">asin</string>
-    <string name="acos">acos</string>
-    <string name="atan">atan</string>
     <string name="Univers">La réponse à la vie, l\'univers et tout le reste</string>
     <string name="item1">Mode Graphique</string>
     <string name="name">Ajouter une nouvelle catégorie</string>

@@ -1,6 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="grey">#445983</color>
-    <color name="shadow">#fff</color>
-    <color name="frame_background">#fff</color>
 </resources>

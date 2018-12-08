@@ -16,8 +16,8 @@ import java.util.Objects;
 
 class CalculListAdapter extends ArrayAdapter<Calcul> {
 
-    private Context mcontext;
-    private int mresource;
+    private final Context mcontext;
+    private final int mresource;
     private int lastPosition = -1;
 
     static class ViewHolder{
@@ -27,10 +27,10 @@ class CalculListAdapter extends ArrayAdapter<Calcul> {
         TextView resultat;
     }
 
-    CalculListAdapter(Context context, int resource, ArrayList<Calcul> objects) {
-        super(context, resource, objects);
+    CalculListAdapter(Context context, ArrayList<Calcul> objects) {
+        super(context, R.layout.adapter_view_layout, objects);
         this.mcontext = context;
-        this.mresource = resource;
+        this.mresource = R.layout.adapter_view_layout;
     }
 
     @NonNull

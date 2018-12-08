@@ -80,7 +80,8 @@
                 android:text="@string/bin"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnDec"
@@ -97,7 +98,8 @@
                 android:text="@string/dec"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnModulo"
@@ -114,7 +116,8 @@
                 android:text="@string/mod"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnLog"
@@ -131,7 +134,8 @@
                 android:text="@string/log"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnE"
@@ -148,7 +152,8 @@
                 android:text="@string/e"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnClear"
@@ -182,7 +187,8 @@
                 android:text="@string/earth"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnBracketsOpen"
@@ -293,7 +299,8 @@
                 android:text="@string/sin"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnCos"
@@ -310,7 +317,8 @@
                 android:text="@string/cos"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnTan"
@@ -327,7 +335,8 @@
                 android:text="@string/tan"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnFactorial"
@@ -344,7 +353,8 @@
                 android:text="@string/factoriel"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnPow"
@@ -361,7 +371,8 @@
                 android:text="@string/Power"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnDot"
@@ -446,7 +457,8 @@
                 android:text="@string/plus_moins"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <Button
                 android:id="@+id/btnDiv"

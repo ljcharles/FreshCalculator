@@ -46,20 +46,23 @@ import static android.provider.MediaStore.Images.Media.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView screenAns, screenMath;
-    ImageView imageView;
-    SlideToActView slideToActView;
-    DatabaseHelper databaseHelper;
+    private TextView screenAns;
+    private TextView screenMath;
+    private ImageView imageView;
+    private SlideToActView slideToActView;
+    private DatabaseHelper databaseHelper;
     private static final int REQ_CODE_SPEECH_INPUT = 100,
             CAMERA_REQUEST_CODE = 200, STORAGE_REQUEST_CODE = 400,
             IMAGE_PICK_GALLERY_CODE = 1000, IMAGE_PICK_CAMERA_CODE = 1888;
 
-    StringBuilder textMath = new StringBuilder(), textAns = new StringBuilder("0"), screenTextMath = new StringBuilder();
-    String expressionInHistory, resultatInHistory;
-    String[] cameraPermission, storagePermission;
-    int checkSubmit = 0;
+    private StringBuilder textMath = new StringBuilder();
+    private StringBuilder textAns = new StringBuilder("0");
+    private StringBuilder screenTextMath = new StringBuilder();
+    private String[] cameraPermission;
+    private String[] storagePermission;
+    private int checkSubmit = 0;
 
-    private int[] idArray = {
+    private final int[] idArray = {
             R.id.btnSin,R.id.btnCos,R.id.btnTan,R.id.btnLog,R.id.btnFactorial,R.id.btnPow,R.id.btnModulo,
             R.id.btnClear,R.id.btnBackSpace,R.id.btnBracketsOpen,R.id.btnBracketsClose,R.id.btnSquare,
             R.id.btnSeven,R.id.btnNine,R.id.btnEight,R.id.btnDiv,R.id.btnMod,R.id.btnBin,R.id.btnDec,
@@ -86,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.imageView);
 
         Intent receivedIntent = getIntent();
-        expressionInHistory = receivedIntent.getStringExtra("expression");
-        resultatInHistory = receivedIntent.getStringExtra("resultat");
+        String expressionInHistory = receivedIntent.getStringExtra("expression");
+        String resultatInHistory = receivedIntent.getStringExtra("resultat");
 
         if(Utils.isNotEmptyString(expressionInHistory) && Utils.isNotEmptyString(resultatInHistory)){
             screenAns.setText(resultatInHistory);
@@ -327,13 +330,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void error(){
+    private void error(){
         screenAns.setText(R.string.mathError);
         checkSubmit = 1;
         textAns = textMath = screenTextMath = new StringBuilder();
     }
 
-    public void submit(){
+    private void submit(){
         StringToExpressionFix ITP = new StringToExpressionFix();
         String[] elementMath = null;
 
@@ -840,7 +843,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (textMath.length() > 0) {
                             char c = textMath.charAt(textMath.length() - 1);
-                            if(c == '!') {
+                            if(c != '!') {
                                 textMath.append("!");
                                 screenTextMath.append("!");
                             }

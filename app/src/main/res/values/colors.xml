@@ -4,11 +4,7 @@
     <color name="colorPrimaryDark">#0c1e4c</color>
     <color name="colorAccent">#f47454</color>
     <color name="text_color_primary">#1B2F54</color>
-    <color name="text_color_button">#445983</color>
     <color name="colorDefaultText">#425681</color>
     <color name="colorBack">#B50D43</color>
     <color name="pure_red">#B50D43</color>
-    <color name="grey">#445983</color>
-    <color name="shadow">#fff</color>
-    <color name="frame_background">#fff</color>
 </resources>

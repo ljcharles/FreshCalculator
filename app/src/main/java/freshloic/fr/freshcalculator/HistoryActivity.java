@@ -22,15 +22,14 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    FloatingActionButton add_data;
-    EditText add_name;
-    ListView calculList;
+    private EditText add_name;
+    private ListView calculList;
 
-    ArrayList<Calcul> listItem;
-    CalculListAdapter adapter;
-    static int id;
+    private ArrayList<Calcul> listItem;
+    private CalculListAdapter adapter;
+    private static int id;
 
 
     @Override
@@ -48,7 +47,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         listItem = new ArrayList<>();
 
-        add_data = findViewById(R.id.add_data);
+        FloatingActionButton add_data = findViewById(R.id.add_data);
         add_name = findViewById(R.id.add_name);
         calculList = findViewById(R.id.calcul_list);
 
@@ -133,7 +132,7 @@ public class HistoryActivity extends AppCompatActivity {
         if (cursor.getCount() == 0){
             Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }else {
-            adapter = new CalculListAdapter(this,R.layout.adapter_view_layout, listItem);
+            adapter = new CalculListAdapter(this, listItem);
             id++;
             while (cursor.moveToNext()){
                 Calcul calcul = new Calcul(
@@ -208,7 +207,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 if (cursor.getCount() != 0){
                     listItem.clear();
-                    adapter = new CalculListAdapter(HistoryActivity.this,R.layout.adapter_view_layout, listItem);
+                    adapter = new CalculListAdapter(HistoryActivity.this, listItem);
                     while (cursor.moveToNext()){
                         Calcul calcul = new Calcul(
                                 cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));

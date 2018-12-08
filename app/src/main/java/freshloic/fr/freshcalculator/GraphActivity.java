@@ -16,15 +16,13 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class GraphActivity extends AppCompatActivity implements View.OnClickListener {
-    FloatingActionButton add_graph;
-    TextView screenMath;
-    GraphView graph;
+    private TextView screenMath;
+    private GraphView graph;
     private int checkSubmit = 0;
-    StringBuilder textMath = new StringBuilder(), screenTextMath = new StringBuilder();
-    String sujet, body;
-    Bitmap image;
+    private StringBuilder textMath = new StringBuilder();
+    private StringBuilder screenTextMath = new StringBuilder();
 
-    private int[] idArray = {
+    private final int[] idArray = {
             R.id.btnSin2,R.id.btnCos2,R.id.btnTan2,R.id.btnX,R.id.btnClear2,
             R.id.btnBracketsOpen2,R.id.btnBracketsClose2,R.id.btnBackSpace2,
             R.id.btnSeven,R.id.btnNine,R.id.btnEight,R.id.btnDiv2,
@@ -41,7 +39,7 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        add_graph = findViewById(R.id.add_graph);
+        FloatingActionButton add_graph = findViewById(R.id.add_graph);
         screenMath = findViewById(R.id.add_function);
         graph = findViewById(R.id.graph);
 
@@ -77,10 +75,10 @@ public class GraphActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void shareGraph() {
-        sujet = "Graphique";
-        body = "L'expression du graphique est : " + screenMath.getText().toString();
-        image = Utils.screenShot(graph);
-        Utils.shareUp(this,sujet, body, image);
+        String sujet = "Graphique";
+        String body = "L'expression du graphique est : " + screenMath.getText().toString();
+        Bitmap image = Utils.screenShot(graph);
+        Utils.shareUp(this, sujet, body, image);
     }
 
     private void makeGraph(String name) {

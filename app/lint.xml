@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLauncherShape">
+        <ignore path="src/main/res/mipmap-hdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-mdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xhdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
+    </issue>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/cat.jpg" />
+        <ignore path="src/main/res/drawable/runningcat1.png" />
+        <ignore path="src/main/res/drawable/runningcat2.png" />
+        <ignore path="src/main/res/drawable/runningcat3.png" />
+        <ignore path="src/main/res/drawable/runningcat4.png" />
+        <ignore path="src/main/res/drawable/trois.jpg" />
+    </issue>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable/cat.jpg" />
+        <ignore path="src/main/res/drawable/trois.jpg" />
+    </issue>
+</lint>

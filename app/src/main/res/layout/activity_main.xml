@@ -460,7 +460,8 @@
                 android:background="@drawable/result_button_bg"
                 android:contentDescription="@string/calcul_to_tell"
                 android:src="@drawable/asset_call"
-                android:theme="@style/MathButton" />
+                android:theme="@style/MathButton"
+                tools:ignore="InconsistentLayout" />
 
             <ImageButton
                 android:id="@+id/btnPhoto"

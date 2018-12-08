@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
 
     private static final String SQL_CREATE_ENTRIES =

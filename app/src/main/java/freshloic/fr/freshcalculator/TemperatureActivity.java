@@ -8,9 +8,10 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class TemperatureActivity extends AppCompatActivity {
-    TextView tv_c, tv_f;
-    SeekBar seekBar;
-    Double c, f;
+    private TextView tv_c;
+    private TextView tv_f;
+    private Double c;
+    private Double f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class TemperatureActivity extends AppCompatActivity {
         tv_c = findViewById(R.id.celsius);
         tv_f = findViewById(R.id.fren);
 
-        seekBar = findViewById(R.id.seekBar2);
+        SeekBar seekBar = findViewById(R.id.seekBar2);
         seekBar.setMax(400);
         seekBar.setProgress(200);
 
