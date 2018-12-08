@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="freshloic.fr.freshcalculator">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -19,22 +22,23 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="ocr"/>
+            android:value="ocr" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".HistoryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".GraphActivity"
+            android:hardwareAccelerated="true" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HistoryActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".GraphActivity"
-            android:hardwareAccelerated="true"/>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
     </application>
 
 </manifest>

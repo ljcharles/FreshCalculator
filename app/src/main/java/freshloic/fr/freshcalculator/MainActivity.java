@@ -226,8 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void cameraFunction(Intent data){
         //Bitmap textBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.trois);
         Bitmap textBitmap = (Bitmap) Objects.requireNonNull(Objects.requireNonNull(data).getExtras()).get("data");
+
         if(textBitmap == null) Log.e("test", "vrzi");
-        else Log.e("test", "test " + textBitmap);
+        else Log.e("test", data + " test " + textBitmap);
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(this).build();
         if (!textRecognizer.isOperational()){
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void calculIntermediaire(String s) {
-        if(!Utils.isNotEmptyString(s)) s = "0";
+        //if(!Utils.isNotEmptyString(s)) s = "0";
         if (!s.matches("[a-wyzA-Z]+")){
             screenMath.setText(s);
             textMath = new StringBuilder(screenMath.getText().toString());
