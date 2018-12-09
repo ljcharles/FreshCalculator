@@ -38,14 +38,24 @@ public class EquationSolverActivity extends AppCompatActivity {
 
               if (d == 0){
                 x1 = -b/(2*a);
-                  tv_result.setText(String.format("L'équation n'admet qu'une solution réelle.  \nΔ = %s\nx = %s", d, x1));
+                String string_x1 = "-" + b + "/(2*" + a + ")";
+                  tv_result.setText(String.format(
+                          "L'équation n'admet qu'une solution réelle.  \nΔ = %s\nx = %s = %s",
+                          d, string_x1, x1));
               } else if (d < 0){
-                tv_result.setText(MessageFormat.format("{0}{1}", R.string.root_negatif, String.format("\nΔ = %s", d)));
+                tv_result.setText(MessageFormat.format(
+                        "{0}{1}",
+                        "Le discriminant Δ est négatif. Donc le trinôme n’admet aucune racine réelle.",
+                        String.format("\nΔ = %s", d)));
               } else if (d > 0){
+                  String string_x1 = "(-" + b + "+√" + d + ")" + "/(2*" + a + ")";
+                  String string_x2 = "(-" + b + "-√" + d + ")" + "/(2*" + a + ")";
                   x1 = (-b+Math.sqrt(d))/(2*a);
                   x2 = (-b-Math.sqrt(d))/(2*a);
                   tv_result.setText(
-                          String.format("L'équation admet deux solutions.  \nΔ = %s\nx1 = %s\nx2 = %s", d, x1, x2));
+                          String.format(
+                                  "L'équation admet deux solutions.  \nΔ = %s\nx1 = %s = %s\nx2 = %s = %s",
+                                  d, string_x1, x1, string_x2, x2));
               }
           }
         });

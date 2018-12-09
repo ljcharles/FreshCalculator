@@ -64,7 +64,6 @@
     <string name="b">b</string>
     <string name="a">a</string>
     <string name="c">c</string>
-    <string name="root_negatif">Le discriminant Δ est négatif. Donc le trinôme n’admet aucune racine réelle.</string>
     <string name="convertisseur_de_temp_rature">Convertisseur de température</string>
     <string name="calcul_de_vitesse_en_temps_r_el">Calcul de vitesse en temps réel</string>
     <string name="convertisseur_de_temp_rature_fahrenheit_en_celsius_f_c">Convertisseur de température Fahrenheit en Celsius F° à C°</string>
@@ -72,5 +71,15 @@
     <string name="_0_0_c">0.0 C</string>
     <string name="calculateur_de_vitesse_en_temps_r_el">Calculateur de vitesse en temps réel</string>
     <string name="_0_0_m_s">0.0 m/s</string>
-    <string name="running_frame">Running frame</string>
+    <string name="activity_history">Historique</string>
+    <string name="activity_history_desactived">Historique désactivé</string>
+    <string name="activity_main">Calculatrice</string>
+    <string name="activity_main_desactived">Calculatrice désactivée</string>
+    <string name="activity_graph">Mode graphique</string>
+    <string name="activity_graph_desactived">Mode graphique désactivée</string>
+    <string name="activity_speed">Calculateur de vitesse</string>
+    <string name="activity_speed_desactived">Calculateur de vitesse désactivé</string>
+    <string name="activity_temp">Convertisseur de température</string>
+    <string name="activity_temp_desactived">Convertisseur de température désactivé</string>
+    <string name="running_frame">Running Frame</string>
 </resources>

@@ -29,7 +29,6 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ArrayList<Calcul> listItem;
     private CalculListAdapter adapter;
-    private static int id;
 
 
     @Override
@@ -133,7 +132,6 @@ public class HistoryActivity extends AppCompatActivity {
             Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }else {
             adapter = new CalculListAdapter(this, listItem);
-            id++;
             while (cursor.moveToNext()){
                 Calcul calcul = new Calcul(
                         cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
@@ -186,7 +184,6 @@ public class HistoryActivity extends AppCompatActivity {
                     adapter.remove(adapter.getItem(position));
                 }
                 adapter.notifyDataSetChanged();
-                id = 0;
             }
             else Toast.makeText(HistoryActivity.this, "Non Supprimer", Toast.LENGTH_SHORT).show();
             return true;
