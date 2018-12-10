@@ -329,6 +329,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.title5:
                 startActivity(new Intent(this,TaskActivity.class));
                 break;
+            case R.id.title6:
+                startActivity(new Intent(this,threeEquationSolverActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

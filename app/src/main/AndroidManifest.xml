@@ -48,6 +48,7 @@
         <activity android:name=".TemperatureActivity" />
         <activity android:name=".SpeedActivity" />
         <activity android:name=".TaskActivity" />
+        <activity android:name=".threeEquationSolverActivity" />
     </application>
 
 </manifest>
