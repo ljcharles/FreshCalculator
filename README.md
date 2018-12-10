@@ -34,6 +34,5 @@ En cliquant longuement sur l'icone de l'application dans le téléphone :
 ![alt](/images/equationActivity.PNG) ![alt](/images/graphActivity.PNG)  
 ![alt](/images/mainActivity.PNG) ![alt](/images/speedActivity.PNG)  
 ![alt](/images/splashscreenActivity.PNG) ![alt](/images/temperatureActivity.PNG)  
-![alt](/images/equationActivity.PNG) ![alt](/images/graphActivity.PNG)  
-![alt](/images/threedegrees.PNG) ![alt](/images/add_note.PNG)  
-![alt](/images/raccourcis.PNG)  
+![alt](/images/equationActivity.PNG) ![alt](/images/threedegrees.PNG) 
+![alt](/images/add_note.PNG)  ![alt](/images/raccourcis.PNG)  
