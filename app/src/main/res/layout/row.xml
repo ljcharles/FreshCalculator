@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/task_title"
+        android:text="@string/exemple"
+        android:layout_width="wrap_content"
+        android:layout_alignStart="@+id/btnDelete"
+        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/my_button_bg"
+        android:onClick="deleteTask"
+        android:text="@string/supprimer"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:theme="@style/MathButton" />
+</RelativeLayout>

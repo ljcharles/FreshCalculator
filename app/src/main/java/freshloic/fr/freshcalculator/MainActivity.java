@@ -326,6 +326,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.title4:
                 startActivity(new Intent(this,SpeedActivity.class));
                 break;
+            case R.id.title5:
+                startActivity(new Intent(this,TaskActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

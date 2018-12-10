@@ -39,12 +39,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".EquationSolverActivity" />
         <activity android:name=".TemperatureActivity" />
         <activity android:name=".SpeedActivity" />
+        <activity android:name=".TaskActivity" />
     </application>
 
 </manifest>

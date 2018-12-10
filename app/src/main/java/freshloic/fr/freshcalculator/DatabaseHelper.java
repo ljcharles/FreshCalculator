@@ -28,13 +28,23 @@ class DatabaseHelper extends SQLiteOpenHelper {
                     "UNIQUE(" + FeedReaderCategory.FeedEntry.COLUMN_NAME_TITLE + ") ON CONFLICT replace)"
             ;
 
+    private static final String SQL_CREATE_TASKS =
+            "CREATE TABLE " + FeedReaderTask.FeedEntry.TABLE_NAME + " (" +
+                    FeedReaderTask.FeedEntry._ID + " INTEGER PRIMARY KEY, " +
+                    FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE + " TEXT, " +
+                    "UNIQUE(" + FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE + ") ON CONFLICT replace)"
+            ;
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
 
     private static final String SQL_DELETE_CATEGORIES =
             "DROP TABLE IF EXISTS " + FeedReaderCategory.FeedEntry.TABLE_NAME;
 
-    private static final int DATABASE_VERSION = 4;
+    private static final String SQL_DELETE_TASKS =
+            "DROP TABLE IF EXISTS " + FeedReaderCategory.FeedEntry.TABLE_NAME;
+
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "Calculs.db";
     private static DatabaseHelper mInstance = null;
 
@@ -50,6 +60,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(SQL_CREATE_CATEGORIES);
+        sqLiteDatabase.execSQL(SQL_CREATE_TASKS);
         ContentValues insertValues = new ContentValues();
         insertValues.put(FeedReaderCategory.FeedEntry.COLUMN_NAME_TITLE, "defaut");
         sqLiteDatabase.insert(FeedReaderCategory.FeedEntry.TABLE_NAME, null, insertValues);
@@ -61,6 +72,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_DELETE_CATEGORIES);
+        db.execSQL(SQL_DELETE_TASKS);
         onCreate(db);
 //        String sql = "DROP TABLE IF EXISTS ";
 //        sqLiteDatabase.execSQL(sql + DB_TABLE);
@@ -92,6 +104,36 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(FeedReaderCategory.FeedEntry.TABLE_NAME, null, values);
         return result != -1;
+    }
+
+    void insertTasks(String title) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE, title);
+
+        db.insert(FeedReaderTask.FeedEntry.TABLE_NAME, null, values);
+        db.close();
+    }
+
+    void deleteTasks(String title) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(FeedReaderTask.FeedEntry.TABLE_NAME,
+                FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE + " LIKE ?", new String[]{title});
+        db.close();
+    }
+
+    ArrayList<String> getTaskList(){
+        ArrayList<String> taskList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(FeedReaderTask.FeedEntry.TABLE_NAME,
+                new String[]{FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE },null,null,null,null,null);
+        while (cursor.moveToNext()){
+            int index = cursor.getColumnIndex(FeedReaderTask.FeedEntry.COLUMN_NAME_TITLE);
+            taskList.add(cursor.getString(index));
+        }
+        cursor.close();
+        db.close();
+        return taskList;
     }
 
     boolean deleteData(String title, Boolean deleteAll) {

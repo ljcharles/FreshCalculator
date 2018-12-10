@@ -21,4 +21,9 @@
         android:icon="@drawable/line_chart_asset"
         android:id="@+id/title4"
         app:showAsAction="never"/>
+    <item
+        android:title="@string/ajout_de_note"
+        android:icon="@drawable/ic_note_add_black_24dp"
+        android:id="@+id/title5"
+        app:showAsAction="never"/>
 </menu>
