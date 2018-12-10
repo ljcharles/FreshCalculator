@@ -21,8 +21,19 @@ En cliquant sur les trois petits points de la barre de l'application :
 
 3) J'ai ajouté un convertisseur de température C° to F° et inversement.
 
-4) J'ai ajouté un calculateur de vitesse en temps réel.
+4) J'ai ajouté un résolveur d'équations à 3 degrés.
+
+5) J'ai ajouté un système où l'utilisateur peut stocker ses de notes.
+
+6) J'ai ajouté un calculateur de vitesse en temps réel.
+
+En cliquant longuement sur l'icone de l'application dans le téléphone :
+
+1) On peut accéder à différent raccourcis des différentes activités de l'application.
 
 ![alt](/images/equationActivity.PNG) ![alt](/images/graphActivity.PNG)  
 ![alt](/images/mainActivity.PNG) ![alt](/images/speedActivity.PNG)  
 ![alt](/images/splashscreenActivity.PNG) ![alt](/images/temperatureActivity.PNG)  
+![alt](/images/equationActivity.PNG) ![alt](/images/graphActivity.PNG)  
+![alt](/images/threedegrees.PNG) ![alt](/images/add note.PNG)  
+![alt](/images/raccourcis.PNG)  
